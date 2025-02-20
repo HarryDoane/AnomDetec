@@ -1,0 +1,40 @@
+/* Style the dropdown button */
+.custom-dropdown .dropdown-toggle {
+    background-color: #1e3962; /* Change button color */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  /* Hover effect */
+  .custom-dropdown .dropdown-toggle:hover {
+    background-color: #5e7d9f;
+  }
+  
+  /* Dropdown menu styles */
+  .custom-dropdown .dropdown-menu {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 200px; /* Set menu width */
+  }
+  
+  /* Dropdown menu items */
+  .custom-dropdown .dropdown-item {
+    color: #333;
+    padding: 10px;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  
+  /* Hover effect for dropdown items */
+  .custom-dropdown .dropdown-item:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  

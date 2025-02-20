@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400..900&display=swap");
+
+.prompt {
+    display: flex; /* Enables a flex box for centering */
+    justify-content: center; /* Centers the content horizontal */
+    align-items: center; /* Centers content vertically*/
+    height: 30vh; /* Set element to 100% of view port*/
+    text-align: center; /* Makes sure text inside is centered*/
+    font-family:'Maven Pro', sans-serif;
+    font-weight: 700;
+
+}
