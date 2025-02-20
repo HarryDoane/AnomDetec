@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400..900&display=swap");
+.import-text {
+    font-size: 16px; /* Make text bigger */; 
+    margin-bottom: 10px; /* Add space below */
+    text-align: center; /* Center the text */
+
+
+
+}
+
+
+
+
+/* Centers the entire prompt + file upload */
+.prompt-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  /* Controls the file upload box width and spacing */
+  .file-upload-box {
+    max-width: 320px; /* Adjust size */
+    width: 100%;
+    margin-top: 10px; /* Add space between text and upload field */
+  }
+  

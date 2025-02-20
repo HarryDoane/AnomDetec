@@ -5,35 +5,37 @@ import "./Dropdown.css";
 
 const Dropdown = () => {
   return (
-    <div className="dropdown custom-dropdown">
-      <button
-        className="btn dropdown-toggle"
-        type="button"
-        id="dropdownMenuButton"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        Select an algorithm to use...
-      </button>
+    <div className="dropdown-container">
+      <div className="dropdown custom-dropdown">
+        <button
+          className="btn dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Select an algorithm to use...
+        </button>
 
-      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li>
-          <a className="dropdown-item" href="#">
-            Algorithm 1
-          </a>
-        </li>
-        <li>
-          <a className="dropdown-item" href="#">
-            Algorithm 2
-          </a>
-        </li>
-        <li>
-          <a className="dropdown-item" href="#">
-            Algorithm 3
-          </a>
-        </li>
-      </ul>
+        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li>
+            <a className="dropdown-item" href="#">
+              Algorithm 1
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Algorithm 2
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Algorithm 3
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

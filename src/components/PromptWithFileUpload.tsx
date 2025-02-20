@@ -1,7 +1,7 @@
-import "./importFile.css";
 import React from "react";
+import "./PromptWithFileUpload.css";
 
-const FileUpload: React.FC = () => {
+const PromptWithFileUpload = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       console.log("Selected file:", event.target.files[0]);
@@ -9,7 +9,8 @@ const FileUpload: React.FC = () => {
   };
 
   return (
-    <div className="file-upload-container">
+    <div className="d-flex flex-column align-items-center mt-3">
+      <p className="import-text">Please import a file...</p>
       <div className="input-group file-upload-box">
         <label className="input-group-text" htmlFor="fileInput">
           Upload
@@ -25,4 +26,4 @@ const FileUpload: React.FC = () => {
   );
 };
 
-export default FileUpload;
+export default PromptWithFileUpload;
