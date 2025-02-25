@@ -9,9 +9,7 @@ function App() {
     <div>
       <Header />
       <PromptWithFileUpload />
-      <div className="container mt-5">
-        <Dropdown />
-      </div>
+      <div className="container mt-5"></div>
     </div>
   );
 }

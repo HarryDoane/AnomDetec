@@ -1,38 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./Dropdown.css";
 
-const Dropdown = () => {
+interface DropdownProps {
+  onSelectAlgorithm: (algorithm: string) => void;
+  disabled: boolean;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ onSelectAlgorithm, disabled }) => {
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>(
+    "Select an algorithm for use..."
+  );
+
+  const handleSelect = (algorithm: string) => {
+    if (!disabled) {
+      setSelectedAlgorithm(algorithm);
+      onSelectAlgorithm(algorithm);
+    }
+  };
+
   return (
-    <div className="dropdown-container">
-      <div className="dropdown custom-dropdown">
+    <div className={`dropdown-container ${disabled ? "disabled" : ""}`}>
+      <div className={`dropdown custom-dropdown ${disabled ? "disabled" : ""}`}>
         <button
-          className="btn dropdown-toggle"
+          className="btn btn-dark dropdown-toggle"
           type="button"
           id="dropdownMenuButton"
           data-bs-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
+          disabled={disabled}
         >
-          Select an algorithm to use...
+          {selectedAlgorithm}
         </button>
 
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
           <li>
-            <a className="dropdown-item" href="#">
-              Algorithm 1
-            </a>
+            <button
+              className="dropdown-item"
+              onClick={() => handleSelect("isolation_forest")}
+              disabled={disabled}
+            >
+              Isolation Forest
+            </button>
           </li>
           <li>
-            <a className="dropdown-item" href="#">
-              Algorithm 2
-            </a>
+            <button
+              className="dropdown-item"
+              onClick={() => handleSelect("lof")}
+              disabled={disabled}
+            >
+              Local Outlier Factor
+            </button>
           </li>
           <li>
-            <a className="dropdown-item" href="#">
-              Algorithm 3
-            </a>
+            <button
+              className="dropdown-item"
+              onClick={() => handleSelect("z_score")}
+              disabled={disabled}
+            >
+              Z-Score Method
+            </button>
           </li>
         </ul>
       </div>

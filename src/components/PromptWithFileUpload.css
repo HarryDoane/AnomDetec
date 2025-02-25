@@ -20,6 +20,7 @@
   .file-upload-box {
     max-width: 320px; /* Adjust size */
     width: 100%;
-    margin-top: 10px; /* Add space between text and upload field */
+    margin-top: 10px;
+    margin-bottom: 15px /* Add space between text and upload field */
   }
   
