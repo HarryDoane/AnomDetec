@@ -15,8 +15,11 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelectAlgorithm, disabled }) => {
 
   const handleSelect = (algorithm: string) => {
     if (!disabled) {
+      console.log("algorithm selected:", algorithm);
       setSelectedAlgorithm(algorithm);
       onSelectAlgorithm(algorithm);
+    } else {
+      console.log("Dropdown disabled");
     }
   };
 

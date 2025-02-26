@@ -1,0 +1,21 @@
+.text-box {
+    position: absolute;  /* Separate from the image */
+    top: 28vh;           /* Align with image */
+    left: 100vh;          /* Push it to the right */
+    max-width: 400px;
+    padding: 20px;
+    
+  }
+  
+  .text-box h2 {
+    margin-bottom: 10px;
+    font-family: monospace;
+  }
+  
+  .text-box p {
+    font-size: 19px;
+    line-height: 1.75;
+    color: #333;
+    font-family: monospace;
+  }
+  

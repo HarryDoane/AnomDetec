@@ -23,4 +23,15 @@
     margin-top: 10px;
     margin-bottom: 15px /* Add space between text and upload field */
   }
+
+  .file-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* Moves it toward the bottom */
+    height: 80vh; /* Adjusts height to move it down */
+    margin-bottom: 50px; /* Adds space before hitting the bottom */
+  }
+  
+  
   

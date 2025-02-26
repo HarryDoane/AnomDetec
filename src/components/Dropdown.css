@@ -1,6 +1,6 @@
 /* Style the dropdown button */
 .custom-dropdown .dropdown-toggle {
-    background-color: #1e3962; /* Change button color */
+    background-color: #6842d1; /* Change button color */
     color: white;
     padding: 10px 15px;
     border-radius: 5px;
@@ -12,7 +12,7 @@
   
   /* Hover effect */
   .custom-dropdown .dropdown-toggle:hover {
-    background-color: #5e7d9f;
+    background-color: #6842d1;
   }
   
   /* Dropdown menu styles */
@@ -34,7 +34,7 @@
   
   /* Hover effect for dropdown items */
   .custom-dropdown .dropdown-item:hover {
-    background-color: #007bff;
+    background-color: #6842d1;
     color: white;
   }
 

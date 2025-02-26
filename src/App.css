@@ -1,1 +1,23 @@
 
+.image-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 30vh; /* Creates spacing */
+    margin-left: 14vw;
+  
+  }
+  
+  
+  .midpage {
+    width: 50vw; /* Adjust width relative to viewport */
+    max-width: 500px; /* Set a max size */
+    max-height: 300px;
+    height: auto; 
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    
+  }
+  

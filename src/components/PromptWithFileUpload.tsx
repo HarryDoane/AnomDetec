@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { Line } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
 import Dropdown from "./Dropdown";
 import "./PromptWithFileUpload.css";
+import { ChartOptions } from "chart.js";
 
+Chart.register(...registerables);
 const PromptWithFileUpload = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [algorithm, setAlgorithm] = useState<string>("");
@@ -23,13 +27,20 @@ const PromptWithFileUpload = () => {
       formData.append("file", file);
 
       try {
+        console.log("Fetching columns from backend...");
         const response = await fetch("http://localhost:5001/columns", {
           method: "POST",
           body: formData,
         });
 
         const result = await response.json();
-        setColumns(result.columns || []);
+        console.log("📬 Columns received:", result.columns);
+
+        if (result.columns && result.columns.length > 0) {
+          setColumns(result.columns);
+        } else {
+          console.log("No columns detected");
+        }
       } catch (error) {
         console.error("Error fetching columns:", error);
       }
@@ -67,9 +78,42 @@ const PromptWithFileUpload = () => {
       alert("Error uploading file.");
     }
   };
+  const anomalyChartOptions: ChartOptions<"line"> = {
+    responsive: true, // Makes it responsive
+    maintainAspectRatio: true,
+    scales: {
+      x: {
+        ticks: { autoSkip: true, maxTicksLimit: 15 }, // Reduces crowded labels
+      },
+      y: {
+        title: { display: true, text: "Packet Size" }, // Adds Y-axis label
+      },
+    },
+    elements: {
+      point: { radius: 4 },
+      line: { borderWidth: 2 }, // Makes anomalies easier to see
+    },
+    plugins: {
+      legend: { display: true, position: "top" as const }, // Moves legend for clarity
+    },
+  };
+
+  const anomalyChartData = {
+    labels: anomalies.map((_, index) => `Anomaly ${index + 1}`), // X-axis labels
+    datasets: [
+      {
+        label: `Anomalies in ${selectedColumn}`,
+        data: anomalies.map((anomaly) => anomaly[selectedColumn]), // Y-axis values
+        fill: true,
+        backgroundColor: "rgba(255, 0, 0, 0.3)",
+        borderColor: "red",
+        tension: 0.2,
+      },
+    ],
+  };
 
   return (
-    <div className="d-flex flex-column align-items-center mt-3">
+    <div className="file-upload-container">
       <p className="import-text">Please import a file...</p>
 
       {/* File Upload Input */}
@@ -91,7 +135,10 @@ const PromptWithFileUpload = () => {
           <label>Select a column:</label>
           <select
             className="form-select"
-            onChange={(e) => setSelectedColumn(e.target.value)}
+            onChange={(e) => {
+              console.log("Selected Column:", e.target.value);
+              setSelectedColumn(e.target.value);
+            }}
           >
             <option value="">Select column...</option>
             {columns.map((col, index) => (
@@ -104,45 +151,26 @@ const PromptWithFileUpload = () => {
       )}
 
       {/* Algorithm Dropdown (Disabled until file is uploaded) */}
-      <Dropdown onSelectAlgorithm={setAlgorithm} disabled={!selectedFile} />
-
+      <div className="dropdown-container">
+        <Dropdown onSelectAlgorithm={setAlgorithm} disabled={!selectedFile} />
+      </div>
       {/* Upload Button (Disabled until both file & algorithm are selected) */}
       <button
         onClick={handleUpload}
-        className="btn btn-primary mt-3"
+        className="btn btn-primary mt-3 detect-button"
         disabled={!selectedFile || !algorithm || !selectedColumn}
       >
         Detect Anomalies
       </button>
 
-      {/* Display Anomalies */}
+      {/* Display Graph Instead of Table */}
       {anomalies.length > 0 && (
-        <div className="mt-4">
+        <div className="mt-4" style={{ width: "80%", maxWidth: "600px" }}>
           <h3>Detected Anomalies</h3>
-          <table
-            style={{ border: "1px solid black", borderCollapse: "collapse" }}
-          >
-            <thead>
-              <tr>
-                <th style={{ border: "1px solid black", padding: "5px" }}>
-                  {selectedColumn}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {anomalies.map((anomaly, index) => (
-                <tr key={index}>
-                  <td style={{ border: "1px solid black", padding: "5px" }}>
-                    {anomaly[selectedColumn]}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Line data={anomalyChartData} options={anomalyChartOptions} />
         </div>
       )}
     </div>
   );
 };
-
 export default PromptWithFileUpload;
