@@ -54,6 +54,9 @@ npm run dev
 - **Anomalies are now highlighted on graph for analysis**
 - **Total number of anomalies displayed above**
 
+## Important Note
+- **There is a pre-loaded csv in the repository under "uploads" in the backend called "a.csv" (found on Kaggle) and the column in which the packet size are found is named "Length", if you are to use your own dataset make sure the name of the column in which packet data reside is known by the user. Hope you enjoy!**
+
 ## Tech Stack
 - **Front end: React.js, Chart.js, Bootstrap**
 - **Backend: Flask, Pandas, Scikit-learn, SciPy**
