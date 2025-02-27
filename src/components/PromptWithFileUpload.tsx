@@ -5,36 +5,41 @@ import Dropdown from "./Dropdown";
 import "./PromptWithFileUpload.css";
 import { ChartOptions } from "chart.js";
 
-Chart.register(...registerables);
+Chart.register(...registerables); // Register Chart.js modules for proper chart rendering
 const PromptWithFileUpload = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [algorithm, setAlgorithm] = useState<string>("");
-  const [columns, setColumns] = useState<string[]>([]);
-  const [selectedColumn, setSelectedColumn] = useState<string>("");
-  const [anomalies, setAnomalies] = useState<any[]>([]);
+  // State variables
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Stores the uploaded file
+  const [algorithm, setAlgorithm] = useState<string>(""); // Stores selected anomaly detection algorithm
+  const [columns, setColumns] = useState<string[]>([]); // Stores available columns for the uploaded dataset
+  const [selectedColumn, setSelectedColumn] = useState<string>(""); // Stores slected colum for detection
+  const [anomalies, setAnomalies] = useState<any[]>([]); // Stores detcted anomalies
+  const [anomalyCount, setAnomalyCount] = useState<number | null>(null); // Stores totla anomly count
 
+  // Function handlign the file selection and sends it to backend to extract columns
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      setSelectedFile(file);
-      setAlgorithm("");
-      setSelectedColumn("");
+      const file = event.target.files[0]; // get the selected file
+      setSelectedFile(file); // store selected file
+      setAlgorithm(""); // Reser selecred algorithm
+      setSelectedColumn(""); // Reset selected column
 
       // Send file to backend to extract column names
+      // Built in JavaScript object to sned data via HTTP request
+      // "file" being the key and file being the value
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", file); // Append the file to FormData for sending to backend
 
       try {
         console.log("Fetching columns from backend...");
         const response = await fetch("http://localhost:5001/columns", {
           method: "POST",
-          body: formData,
+          body: formData, // Sending file backend
         });
 
         const result = await response.json();
-        console.log("📬 Columns received:", result.columns);
+        console.log("Columns received:", result.columns);
 
         if (result.columns && result.columns.length > 0) {
           setColumns(result.columns);
@@ -47,66 +52,69 @@ const PromptWithFileUpload = () => {
     }
   };
 
+  //  Fucntion to handle the file upload and anomaly detection requests
   const handleUpload = async () => {
     if (!selectedFile || !algorithm || !selectedColumn) {
-      alert("Please select a file, column, and algorithm.");
+      alert("Please select a file, column, and algorithm."); // alert if any of fields are missing
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("algorithm", algorithm);
-    formData.append("column", selectedColumn);
+    formData.append("file", selectedFile); // Append the file
+    formData.append("algorithm", algorithm); // Append the selected algorithm
+    formData.append("column", selectedColumn); // Append the selected column
 
     try {
       const response = await fetch("http://localhost:5001/upload", {
         method: "POST",
-        body: formData,
+        body: formData, // sned request to backend
       });
 
       const result = await response.json();
       console.log("Response from backend:", result);
 
       if (response.ok) {
-        setAnomalies(result.anomalies);
-        alert(`Upload successful: ${result.message}`);
+        setAnomalies(result.anomalies); // Store dected anomalies
+        setAnomalyCount(result.anomaly_count); // Store anomaly count
+        alert(`Upload successful: ${result.message}`); // Show success message
       } else {
-        alert(`Error uploading file: ${result.message}`);
+        alert(`Error uploading file: ${result.message}`); // error message
       }
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("Error uploading file.");
     }
   };
+  // Chart.js configuration options for anomaly graph
   const anomalyChartOptions: ChartOptions<"line"> = {
     responsive: true, // Makes it responsive
-    maintainAspectRatio: true,
+    maintainAspectRatio: true, // Maintains aspect ratio
     scales: {
       x: {
-        ticks: { autoSkip: true, maxTicksLimit: 15 }, // Reduces crowded labels
+        ticks: { autoSkip: true, maxTicksLimit: 15 }, // Reduces crowded labels for x axis
       },
       y: {
         title: { display: true, text: "Packet Size" }, // Adds Y-axis label
       },
     },
     elements: {
-      point: { radius: 4 },
+      point: { radius: 4 }, // Adjust size of anomaly points
       line: { borderWidth: 2 }, // Makes anomalies easier to see
     },
     plugins: {
-      legend: { display: true, position: "top" as const }, // Moves legend for clarity
+      legend: { display: true, position: "top" as const }, // Puts legend at the top
     },
   };
 
   const anomalyChartData = {
-    labels: anomalies.map((_, index) => `Anomaly ${index + 1}`), // X-axis labels
+    labels: anomalies.map((_, index) => `Anomaly ${index + 1}`), // labels each anoamly on x-axis
     datasets: [
       {
-        label: `Anomalies in ${selectedColumn}`,
-        data: anomalies.map((anomaly) => anomaly[selectedColumn]), // Y-axis values
+        label: `Anomalies in ${selectedColumn}`, // Chart label with user selected column
+        data: anomalies.map((anomaly) => anomaly[selectedColumn]), // Plots detected anomilies
         fill: true,
-        backgroundColor: "rgba(255, 0, 0, 0.3)",
-        borderColor: "red",
+        backgroundColor: "gray",
+        borderColor: "#6842d1",
         tension: 0.2,
       },
     ],
@@ -125,7 +133,7 @@ const PromptWithFileUpload = () => {
           type="file"
           className="form-control"
           id="fileInput"
-          onChange={handleFileChange}
+          onChange={handleFileChange} // Calls handleFileChange when the file is selcted
         />
       </div>
 
@@ -137,7 +145,7 @@ const PromptWithFileUpload = () => {
             className="form-select"
             onChange={(e) => {
               console.log("Selected Column:", e.target.value);
-              setSelectedColumn(e.target.value);
+              setSelectedColumn(e.target.value); // Store the selcted column
             }}
           >
             <option value="">Select column...</option>
@@ -162,14 +170,23 @@ const PromptWithFileUpload = () => {
       >
         Detect Anomalies
       </button>
-
-      {/* Display Graph Instead of Table */}
-      {anomalies.length > 0 && (
-        <div className="mt-4" style={{ width: "80%", maxWidth: "600px" }}>
-          <h3>Detected Anomalies</h3>
-          <Line data={anomalyChartData} options={anomalyChartOptions} />
-        </div>
+      {/* Display Anomaly Count (only Show if Anomalies Exist) */}
+      {anomalyCount !== null && (
+        <p className="anomaly-count">
+          Total Anomalies Detected: {anomalyCount}
+        </p>
       )}
+      {/* Display Graph*/}
+      <div className="graph-wrapper">
+        <div className="graph-container">
+          {anomalies.length > 0 && (
+            <div className="mt-4" style={{ width: "80%", maxWidth: "800px" }}>
+              <h3 className="Graph-Title">Detected Anomalies</h3>
+              <Line data={anomalyChartData} options={anomalyChartOptions} />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

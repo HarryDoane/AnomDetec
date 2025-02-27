@@ -3,8 +3,8 @@
     font-size: 16px; /* Make text bigger */; 
     margin-bottom: 10px; /* Add space below */
     text-align: center; /* Center the text */
-
-
+    font-family: monospace;
+   
 }
 
 /* Centers the entire prompt + file upload */
@@ -14,6 +14,7 @@
     align-items: center;
     text-align: center;
     margin-top: 100px;
+    
   }
   
   /* Controls the file upload box width and spacing */
@@ -29,9 +30,49 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-end; /* Moves it toward the bottom */
-    height: 80vh; /* Adjusts height to move it down */
+    height: 120vh; /* Adjusts height to move it down */
     margin-bottom: 50px; /* Adds space before hitting the bottom */
   }
+  .detect-button{
+    background-color: #6842d1; /* Matches PktWatch purple */
+    color: white; /* White text */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+  }
+  .graph-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .graph-container {
+    min-height: 400px; /* Ensures space is always there */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Adjust spacing */
+    
+  }
   
+.Graph-Title{
+  font-family: monospace;
+}
   
+.anomaly-count {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: monospace;
+  color: #6842d1; /* Adjust to your theme */
+  margin-top:10px;
+  margin-bottom: 0px;
+}
+
   
